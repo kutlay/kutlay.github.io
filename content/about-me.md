@@ -14,7 +14,6 @@ Hi, I'm Atalay. I work as a software engineer at [Akamai](https://akamai.com) wo
 ### ilacabak
 [ilacabak.com](https://ilacabak.com) is Turkey's second most popular medicine information website. The website aims to provide comprehensive and updated information to both consumers and healthcare professionals. Ilacabak serves over a million users every month.
 
-
 ## Publications
 
 - David Gillman, Uday Goyat, Atalay Kutlay -- "Teach Yourself Georgian Folk Songs Dataset: A Annotated Corpus Of Traditional Vocal Polyphony", Ismir 2022 Hybrid Conference, [paper](https://archives.ismir.net/ismir2022/paper/000042.pdf)
