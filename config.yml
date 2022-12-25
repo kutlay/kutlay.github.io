@@ -1,0 +1,121 @@
+baseURL: "https://kutlay.github.io"
+title: Atalay Kutlay
+paginate: 5
+theme: PaperMod
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+googleAnalytics: UA-157967636-1
+
+minify:
+  disableXML: true
+  minifyOutput: true
+
+params:
+  env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  title: Atalay Kutlay
+  description: "Atalay Kutlay's personal website"
+  keywords: [atalay kutlay]
+  author: 
+  # author: ["Me", "You"] # multiple authors
+  images: ["<link or path of image for opengraph, twitter-cards>"]
+  DateFormat: "January 02, 2006"
+  defaultTheme: auto # dark, light
+  disableThemeToggle: false
+  TocSide: 'right'  # or 'right'
+  EnableInstantClick: true
+  ShowReadingTime: true
+  ShowShareButtons: false
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: false
+  ShowCodeCopyButtons: true
+  ShowWordCount: false
+  ShowRssButtonInSectionTermList: true
+  UseHugoToc: true
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  comments: true
+  hidemeta: false
+  hideSummary: false
+  showtoc: true
+  tocopen: true
+  
+
+  assets:
+    # disableHLJS: true # to disable highlight.js
+    # disableFingerprinting: true
+    favicon: "<link / abs url>"
+    favicon16x16: "<link / abs url>"
+    favicon32x32: "<link / abs url>"
+    apple_touch_icon: "<link / abs url>"
+    safari_pinned_tab: "<link / abs url>"
+
+  label:
+    text: "Atalay Kutlay"
+    icon: /apple-touch-icon.png
+    iconHeight: 35
+
+  # profile-mode
+  profileMode:
+    enabled: true # needs to be explicitly set
+    title: Atalay Kutlay
+    subtitle: "Software Engineer @ Akamai Technologies"
+    imageUrl: "https://media.licdn.com/dms/image/C5603AQF6w1KckIummg/profile-displayphoto-shrink_800_800/0/1588313733275?e=1677715200&v=beta&t=1frLlpKnH6s1N7dsnVWr_8STAliQ5oMzXYUu6TGZSGk"
+    imageWidth: 120
+    imageHeight: 120
+    imageTitle: Atalay Kutlay
+    buttons:
+      - name: Posts
+        url: posts
+      - name: Projects
+        url: projects
+
+  socialIcons:
+    - name: twitter
+      url: "https://twitter.com/atalaykutlay"
+    - name: linkedin
+      url: "https://www.linkedin.com/in/atalay-kutlay/"
+    - name: github
+      url: "https://github.com/kutlay"
+
+  cover:
+    hidden: true # hide everywhere but not in structured data
+    hiddenInList: true # hide on list pages and home
+    hiddenInSingle: true # hide on single page
+
+  # for search
+  # https://fusejs.io/api/options.html
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys: ["title", "permalink", "summary", "content"]
+menu:
+  main:
+    - identifier: posts
+      name: posts
+      url: /posts/
+      weight: 10
+    - identifier: aboutme
+      name: about me
+      url: /about-me/
+      weight: 20
+# Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
+pygmentsUseClasses: true
+markup:
+  goldmark:
+      renderer:
+        unsafe: true
+  highlight:
+    noClasses: false
+    # anchorLineNos: true
+    # codeFences: true
+    # guessSyntax: true
+    # lineNos: true
+    # style: monokai
