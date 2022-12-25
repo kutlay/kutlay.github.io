@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://kutlay.github.io/</loc>
+    <lastmod>2022-12-25T14:29:37-05:00</lastmod>
+  </url><url>
+    <loc>https://kutlay.github.io/posts/hello-world/</loc>
+    <lastmod>2022-12-25T14:29:37-05:00</lastmod>
+  </url><url>
+    <loc>https://kutlay.github.io/posts/</loc>
+    <lastmod>2022-12-25T14:29:37-05:00</lastmod>
+  </url><url>
+    <loc>https://kutlay.github.io/about-me/</loc>
+  </url><url>
+    <loc>https://kutlay.github.io/categories/</loc>
+  </url><url>
+    <loc>https://kutlay.github.io/posts/</loc>
+  </url><url>
+    <loc>https://kutlay.github.io/tags/</loc>
+  </url>
+</urlset>
