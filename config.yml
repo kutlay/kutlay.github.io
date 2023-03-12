@@ -70,16 +70,10 @@ params:
     buttons:
       - name: Posts
         url: posts
-      - name: Projects
-        url: projects
 
   socialIcons:
-    - name: twitter
-      url: "https://twitter.com/atalaykutlay"
     - name: linkedin
       url: "https://www.linkedin.com/in/atalay-kutlay/"
-    - name: github
-      url: "https://github.com/kutlay"
 
   cover:
     hidden: true # hide everywhere but not in structured data
