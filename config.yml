@@ -63,7 +63,7 @@ params:
     enabled: true # needs to be explicitly set
     title: Atalay Kutlay
     subtitle: "Software Engineer @ Akamai Technologies"
-    imageUrl: "https://media.licdn.com/dms/image/C5603AQF6w1KckIummg/profile-displayphoto-shrink_800_800/0/1588313733275?e=1677715200&v=beta&t=1frLlpKnH6s1N7dsnVWr_8STAliQ5oMzXYUu6TGZSGk"
+    imageUrl: "images/pp.jpeg"
     imageWidth: 120
     imageHeight: 120
     imageTitle: Atalay Kutlay
