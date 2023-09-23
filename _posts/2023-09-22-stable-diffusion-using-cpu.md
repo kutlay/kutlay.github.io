@@ -6,7 +6,7 @@ category: software
 
 I recently got into deep learning and went over <a href="https://www.youtube.com/watch?v=QDX-1M5Nj7s&list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI" target="_BLANK">MIT's 6.S191</a> to understand the fundamentals. I absolutely recommend at least doing their labs as they teach you the fundamentals pretty quickly and give you some hands-on experience.
 
-After writing a couple of toy models, I found myself trying to generate funny images on publicly available Stable Diffusion models, which often make you wait for a long time and don’t give you a lot of options to customize your image. I kinda don’t want to get into the whole business of buying a GPU or figuring out how to use the GPU on an AWS machine so I wanted to give a classic VM with a moderate CPU a try to generate images. In the end, I don’t need a fast model, I just need something I have full control over so I can generate images like this one:
+After writing a couple of toy models, I found myself trying to generate funny images on publicly available Stable Diffusion models, which often make you wait for a long time and don’t give you a lot of options to customize your image. I don’t want to get into the whole business of buying a GPU or figuring out how to use the GPU on an AWS machine so I wanted to give a classic VM with a moderate CPU a try to generate images. In the end, I don’t need a fast model, I just need something I have full control over so I can generate images like this one:
 
 | ![Astronout cat? sort of](assets/images/astronout-cat.png) |
 |:--:| 
