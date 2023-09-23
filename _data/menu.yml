@@ -1,0 +1,26 @@
+# For documentation on this file, see:
+# https://github.com/riggraz/no-style-please#customize-the-menu
+
+entries:
+  - title: about
+    entries:
+      - title: A software engineer who enjoys data
+      - title: "Currently <a href='https://akamai.com' target='_BLANK'>@Akamai</a> optimizing CDN delivery and solving VM allocation/capacity planning problems"
+      - title: "<a href='https://www.linkedin.com/in/atalay-kutlay/' target='_BLANK'>Linkedin</a>"
+
+  - title: software
+    post_list:
+      category: software
+
+  # - title: data
+  #   post_list:
+  #     category: data
+
+  # Should add stuff here in the future
+  # - title: Cool reads 
+  #   entries:
+  #     - title: with subitems
+  #       entries:
+  #         - title: with subsubitems
+  #         - title: example page
+  #           url: about
