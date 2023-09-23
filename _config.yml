@@ -1,7 +1,7 @@
 title: Atalay Kutlay # name of the site
 author: Atalay Kutlay # name of site's author
 email: atalaykutlaytr@gmail.com # email of site's author
-url: https://kutlay.github.io # root address of the site
+url: https://atalaykutlay.com # root address of the site
 baseurl: "" # subpath of the site, e.g. "/blog" (leave it blank "" if you're site shouldn't use a subpath)
 description: > # description of the site (multiple lines allowed)
   Thoughts on software and data
