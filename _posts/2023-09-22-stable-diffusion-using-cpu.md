@@ -10,7 +10,7 @@ After writing a couple of toy models, I found myself trying to generate funny im
 
 | ![Astronout cat? sort of](assets/images/astronout-cat.png) |
 |:--:| 
-| *For reference, this takes ~15 seconds* |
+| *For reference, this takes ~15 seconds on a 6 vCPU VM* |
 
 Thankfully the community has already done most of the work for me. There are already tools to easily load models and run prompts such as <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui">stable-diffusion-webui</a> and HuggingFace has an amazing community with thousands of models available to use.
 
