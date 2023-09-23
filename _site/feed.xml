@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="https://kutlay.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kutlay.github.io/" rel="alternate" type="text/html" /><updated>2023-09-22T22:54:43-04:00</updated><id>https://kutlay.github.io/feed.xml</id><title type="html">Atalay Kutlay</title><subtitle>Thoughts on software and data
-</subtitle><author><name>Atalay Kutlay</name></author><entry><title type="html">Running Stable Diffusion Models on CPU</title><link href="https://kutlay.github.io/stable-diffusion-using-cpu.html" rel="alternate" type="text/html" title="Running Stable Diffusion Models on CPU" /><published>2023-09-22T00:00:00-04:00</published><updated>2023-09-22T00:00:00-04:00</updated><id>https://kutlay.github.io/stable-diffusion-using-cpu</id><content type="html" xml:base="https://kutlay.github.io/stable-diffusion-using-cpu.html">&lt;p&gt;I recently got into deep learning and went over &lt;a href=&quot;https://www.youtube.com/watch?v=QDX-1M5Nj7s&amp;amp;list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI&quot; target=&quot;_BLANK&quot;&gt;MIT’s 6.S191&lt;/a&gt; to understand the fundamentals. I absolutely recommend at least doing their labs as they teach you the fundamentals pretty quickly and give you some hands-on experience.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="https://atalaykutlay.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://atalaykutlay.com/" rel="alternate" type="text/html" /><updated>2023-09-23T08:14:37-04:00</updated><id>https://atalaykutlay.com/feed.xml</id><title type="html">Atalay Kutlay</title><subtitle>Thoughts on software and data
+</subtitle><author><name>Atalay Kutlay</name></author><entry><title type="html">Running Stable Diffusion Models on CPU</title><link href="https://atalaykutlay.com/stable-diffusion-using-cpu.html" rel="alternate" type="text/html" title="Running Stable Diffusion Models on CPU" /><published>2023-09-22T00:00:00-04:00</published><updated>2023-09-22T00:00:00-04:00</updated><id>https://atalaykutlay.com/stable-diffusion-using-cpu</id><content type="html" xml:base="https://atalaykutlay.com/stable-diffusion-using-cpu.html">&lt;p&gt;I recently got into deep learning and went over &lt;a href=&quot;https://www.youtube.com/watch?v=QDX-1M5Nj7s&amp;amp;list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI&quot; target=&quot;_BLANK&quot;&gt;MIT’s 6.S191&lt;/a&gt; to understand the fundamentals. I absolutely recommend at least doing their labs as they teach you the fundamentals pretty quickly and give you some hands-on experience.&lt;/p&gt;
 
 &lt;p&gt;After writing a couple of toy models, I found myself trying to generate funny images on publicly available Stable Diffusion models, which often make you wait for a long time and don’t give you a lot of options to customize your image. I kinda don’t want to get into the whole business of buying a GPU or figuring out how to use the GPU on an AWS machine so I wanted to give a classic VM with a moderate CPU a try to generate images. In the end, I don’t need a fast model, I just need something I have full control over so I can generate images like this one:&lt;/p&gt;
 
@@ -20,13 +20,13 @@
 
 &lt;p&gt;All I had to do was to install these tools and make sure they were working. The only problem is that the hardware dependency is more of a problem when it comes to models like these so it takes a bit of a trial and error to get things running. I needed to play with different flags to disable using the GPU and enable special modes that don’t run certain tests to make it work on a CPU.&lt;/p&gt;
 
-&lt;p&gt;(If you’re very excited to generate your “cat in space” image and don’t want to deal with the details, you can simply use the &lt;a href=&quot;https://cloud.linode.com/stackscripts/1241119&quot;&gt;StackScript&lt;/a&gt; I created which install everything you need.)&lt;/p&gt;
+&lt;p&gt;(If you’re very excited to generate your “cat in space” image and don’t want to deal with the details, you can simply use the &lt;a href=&quot;https://cloud.linode.com/stackscripts/1241119&quot;&gt;StackScript&lt;/a&gt; I created which installs everything you need.)&lt;/p&gt;
 
 &lt;hr data-content=&quot;Installation&quot; /&gt;
 
-&lt;p&gt;(All instructions from now on are tested on a Ubuntu 22.04 Linode VM)&lt;/p&gt;
+&lt;p&gt;(All instructions from now on are tested on an Ubuntu 22.04 Linode VM)&lt;/p&gt;
 
-&lt;p&gt;The below code block installs everything you need and starts the web UI at the end. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--share&lt;/code&gt; tag will create you a public URL, which will look like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Running on public URL: https://98..sdf.gradio.live&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The below code block installs everything you need and starts the web UI at the end. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--share&lt;/code&gt; tag will create a public URL, which will look like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Running on public URL: https://98..sdf.gradio.live&lt;/code&gt;.&lt;/p&gt;
 
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
 
@@ -50,11 +50,17 @@ bash webui.sh &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&q
 
 &lt;hr data-content=&quot;Models&quot; /&gt;
 
-&lt;p&gt;At the time of this writing, the web UI comes with a model &lt;a href=&quot;https://huggingface.co/runwayml/stable-diffusion-v1-5&quot;&gt;v1-5-pruned-emaonly.safetensors&lt;/a&gt;. Things move very fast in stable diffusion world so you will find much beter models on HuggingFace. You can use &lt;a href=&quot;https://huggingface.co/models?pipeline_tag=text-to-image&amp;amp;sort=trending&quot;&gt;this link&lt;/a&gt; to look at the most popular ones. All you need to do is to pick one of them, go to the “Files and Version” tab on model’s HuggingFace page, and find the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.safetensors&lt;/code&gt; file. Download that file to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;stable-diffusion-webui/models/&lt;/code&gt; and web UI will pick it up automatically.&lt;/p&gt;
+&lt;p&gt;At the time of this writing, the web UI comes with a model &lt;a href=&quot;https://huggingface.co/runwayml/stable-diffusion-v1-5&quot;&gt;v1-5-pruned-emaonly.safetensors&lt;/a&gt;. This is a cutting-edge model traiend on 512x512 images.&lt;/p&gt;
 
-&lt;p&gt;Here are a few things to pay attention while you’re trying a new model:&lt;/p&gt;
+&lt;p&gt;Things move very fast in the stable diffusion world so you will find much better models on HuggingFace. You can use &lt;a href=&quot;https://huggingface.co/models?pipeline_tag=text-to-image&amp;amp;sort=trending&quot;&gt;this link&lt;/a&gt; to look at the most popular ones. All you need to do is to pick one of them, go to the “Files and Version” tab on the model’s HuggingFace page, and find the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.safetensors&lt;/code&gt; file. Download that file to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;stable-diffusion-webui/models/&lt;/code&gt; and web UI will pick it up automatically.&lt;/p&gt;
+
+&lt;p&gt;Here are a few things to pay attention to while you’re trying a new model:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Make sure to understand what they’re trained on. For example, if the model is trained on 512x512 images, you will have much better results generating 512x512.&lt;/li&gt;
-  &lt;li&gt;Bigger the model, slower the inference, and especially since we’re trying to use CPU, it’s more painful.&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Atalay Kutlay</name></author><category term="software" /><summary type="html">I recently got into deep learning and went over MIT’s 6.S191 to understand the fundamentals. I absolutely recommend at least doing their labs as they teach you the fundamentals pretty quickly and give you some hands-on experience.</summary></entry></feed>
+  &lt;li&gt;The bigger the model, the slower the inference, and especially since we’re trying to use CPU, it’s more painful.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr data-content=&quot;Samplers&quot; /&gt;
+
+&lt;p&gt;Sampling method is one of the most important variables while generating an image. For starters, you can go with DPM2 Karras or Euler. &lt;a href=&quot;https://stable-diffusion-art.com/samplers/&quot;&gt;Here&lt;/a&gt; is a good blog post explaining difference between all samplers.&lt;/p&gt;</content><author><name>Atalay Kutlay</name></author><category term="software" /><summary type="html">I recently got into deep learning and went over MIT’s 6.S191 to understand the fundamentals. I absolutely recommend at least doing their labs as they teach you the fundamentals pretty quickly and give you some hands-on experience.</summary></entry></feed>

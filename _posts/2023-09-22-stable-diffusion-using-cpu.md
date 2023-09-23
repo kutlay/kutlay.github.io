@@ -16,14 +16,14 @@ Thankfully the community has already done most of the work for me. There are alr
 
 All I had to do was to install these tools and make sure they were working. The only problem is that the hardware dependency is more of a problem when it comes to models like these so it takes a bit of a trial and error to get things running. I needed to play with different flags to disable using the GPU and enable special modes that don't run certain tests to make it work on a CPU.
 
-(If you're very excited to generate your "cat in space" image and don't want to deal with the details, you can simply use the <a href="https://cloud.linode.com/stackscripts/1241119">StackScript</a> I created which install everything you need.)
+(If you're very excited to generate your "cat in space" image and don't want to deal with the details, you can simply use the <a href="https://cloud.linode.com/stackscripts/1241119">StackScript</a> I created which installs everything you need.)
 
 ---
 {: data-content="Installation"}
 
-(All instructions from now on are tested on a Ubuntu 22.04 Linode VM)
+(All instructions from now on are tested on an Ubuntu 22.04 Linode VM)
 
-The below code block installs everything you need and starts the web UI at the end. `--share` tag will create you a public URL, which will look like `Running on public URL: https://98..sdf.gradio.live`.
+The below code block installs everything you need and starts the web UI at the end. `--share` tag will create a public URL, which will look like `Running on public URL: https://98..sdf.gradio.live`.
 
  
 ```bash
@@ -50,9 +50,16 @@ If everything goes well, you should have the web UI ready!
 ---
 {: data-content="Models"}
 
-At the time of this writing, the web UI comes with a model <a href="https://huggingface.co/runwayml/stable-diffusion-v1-5">v1-5-pruned-emaonly.safetensors</a>. Things move very fast in stable diffusion world so you will find much beter models on HuggingFace. You can use <a href="https://huggingface.co/models?pipeline_tag=text-to-image&sort=trending">this link</a> to look at the most popular ones. All you need to do is to pick one of them, go to the "Files and Version" tab on model's HuggingFace page, and find the `.safetensors` file. Download that file to `stable-diffusion-webui/models/` and web UI will pick it up automatically.
+At the time of this writing, the web UI comes with a model <a href="https://huggingface.co/runwayml/stable-diffusion-v1-5">v1-5-pruned-emaonly.safetensors</a>. This is a cutting-edge model traiend on 512x512 images. 
 
-Here are a few things to pay attention while you're trying a new model:
+Things move very fast in the stable diffusion world so you will find much better models on HuggingFace. You can use <a href="https://huggingface.co/models?pipeline_tag=text-to-image&sort=trending">this link</a> to look at the most popular ones. All you need to do is to pick one of them, go to the "Files and Version" tab on the model's HuggingFace page, and find the `.safetensors` file. Download that file to `stable-diffusion-webui/models/` and web UI will pick it up automatically.
+
+Here are a few things to pay attention to while you're trying a new model:
 
 - Make sure to understand what they're trained on. For example, if the model is trained on 512x512 images, you will have much better results generating 512x512.
-- Bigger the model, slower the inference, and especially since we're trying to use CPU, it's more painful. 
+- The bigger the model, the slower the inference, and especially since we're trying to use CPU, it's more painful. 
+
+---
+{: data-content="Samplers"}
+
+Sampling method is one of the most important variables while generating an image. For starters, you can go with DPM2 Karras or Euler. <a href="https://stable-diffusion-art.com/samplers/">Here</a> is a good blog post explaining difference between all samplers.
