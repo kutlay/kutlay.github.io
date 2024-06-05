@@ -12,12 +12,16 @@ entries:
     post_list:
       category: software
 
+  - title: errors
+    post_list:
+      category: errors
+
   # - title: data
   #   post_list:
   #     category: data
 
   # Should add stuff here in the future
-  # - title: Cool reads 
+  # - title: Cool reads
   #   entries:
   #     - title: with subitems
   #       entries:
