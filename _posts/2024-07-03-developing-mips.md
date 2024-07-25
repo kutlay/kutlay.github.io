@@ -4,35 +4,35 @@ layout: post
 category: software
 ---
 
-I recently joined a new project to develop an optimization model for Linode's VM allocation problem. The problem can be summarized as a multi-dimensional bin packing problem with extra constraints for business goals. We approach this problem using a Mixed Integer Program (MIP). If you are not familiar with MIPs, you can read [this article](https://www.gurobi.com/resources/mixed-integer-programming-mip-a-primer-on-the-basics/) by Gurobi which explains the basics very well.  MIPs are used in many resource allocation problems, such as airline scheduling or logistics. Learning about them will certainly give you a new aspect while approaching optimization problems.
+I recently joined a new project to develop an optimization model for Linode's VM allocation system which can be summarized as a dynamic multi-dimensional bin packing problem where the items are VMs and the bins are hosts. The problem also has additional constraints to meet business goals (such as availability of certain plans, performance of VMs etc). We approach this problem using a Mixed Integer Program (MIP). If you are not familiar with MIPs, you can read [this article](https://www.gurobi.com/resources/mixed-integer-programming-mip-a-primer-on-the-basics/) by Gurobi which explains the basics very well.  MIPs are used in many resource allocation problems, such as airline scheduling or logistics. Learning about them will certainly give you a new aspect in approaching optimization.
 
-Developing this kind of optimization model generally has two steps. In the first step, you develop the model and show that it works on a small problem. Later you develop a lot of tooling to simulate having this model in production, showing the benefits and side effects, trying to make sure everything is as you expected while also trying to show a case for such service in your organization.
+Developing this kind of optimization model generally has two steps. First, you develop the model and show that it works on a small problem. Then, you build tooling to simulate the model in production, showing the benefits and side effects, trying to make sure everything is as you expected while also trying to show a case for such service in your organization.
 
-If you were able to show some improvement (and convince people) then the next step is to create a way to develop this model in the long run, make it robust by working on tooling and tests, and finally wrap it nicely into a service. Making the underlying optimization model available as a service is a big part of solving this whole problem. Since you're optimizing an existing system, it is almost certain that the existing infrastructure will need to communicate with this optimization service while making decisions. The optimization model is only useful if the system can consume the results effectively. 
+If you can show some improvement (and convince people) then the next step is to create a way to develop the model in the long run, make it robust by working on tooling and tests, and finally wrap it nicely into a service. Making the underlying optimization model available as a service is a big part of solving this whole journey. Since you're optimizing an existing system, it is almost certain that the existing infrastructure will need to communicate with this optimization service while making decisions. The optimization model is only useful if others services can consume the results without distruptions and within an a reasonable time.
 
-The requirements for such service may include things like:
+Requirements for such a service may include:
 
 - A highly available API running the underlying optimization model on demand, providing various endpoints for a variety of use cases.
-- Scheduled runs (such as every hour) where the solution of the optimization model is published for other systems to look up immediately
-- Ability to make changes to the underlying model at a much higher cadence since the company is just started to focus on the problem
+- Scheduled runs (e.g., every hour) where the solution of the optimization model is published for other systems to look up immediately
+- Ability to make changes to the underlying model without distrupting the production service
 
-I believe the set of requirements are pretty typical for services which exposes an underlying optimization model. In this post I will try to explain what are the bare minimums to implement such service. 
+I believe the set of requirements are pretty typical for services which exposes an underlying optimization model. In this post I try to explain what are the bare minimums to implement such a service. 
 
-Let's start with the basics of such service and then focus on what is needed to keep it running in the long run.
+Let's start with the basics of the service and then I'll focus on what is needed to keep it running in the long term.
 
 ## Backend service design for long running processes
 
-APIs typically shouldn't keep requests waiting for too long. Unfortunately this doesn't go well with MIPs. They make take a long time (sometimes unpredictably) and fail. Therefore, if the user of the API waits for an immediate response, the response time would vary a lot and make handling the connection hard to debug. Instead, the underlying optimization model should be run as a background process and the client should have a way to check the status.
+APIs typically shouldn't keep requests waiting for too long. Unfortunately, this is a problem for MIPs. They make take a long time (sometimes unpredictably) and fail. If the user of the API waits for an immediate response, the response time would vary a lot depending on the problem size and the failure wouldn't be easy to debug. Instead, the underlying optimization model should run as a background process and the client should have a way to check its status.
 
 The simplified architecture of such long running operation would look like this:
 
 ![Life of long running processes](../assets/images/long-running-process.svg)
 
-To learn more about long running procceses, you can check out the [API Design Patterns](https://www.manning.com/books/api-design-patterns) book by JJ Geewax which has a "Long-running operations" section covering the basics for this kind of use case.
+To learn more about long running processes, you can check out the [API Design Patterns](https://www.manning.com/books/api-design-patterns) book by JJ Geewax which has a "Long-running operations" section covering the basics for this kind of use case.
 
-Other than the long running process architecture, there are a couple more things to watch out for while developing a service on top of an optimization model.
+In addition to the long running process architecture, there are a couple more things to watch out for while developing a service on top of an optimization model.
 
-First, make sure you limit the duration of the runs by "something". MIPs can take a long time for the most unexpected instances of runs. Logging is key to understand what went wrong in these cases. Ideally, you should keep track of all the inputs and the outputs of the optimization model.
+First, make sure you limit the duration of the runs in some way. MIPs can take a long t Logging is key to understand what went wrong in these cases. Ideally, you should keep track of all the inputs and the outputs of the optimization model.
 
 Second, implement retry strategies with varying MIP gap levels. There are cases where it makes sense to compromise the solution quality a little just to get a solution. Retries should consider increasing the MIP gap as well.
 
