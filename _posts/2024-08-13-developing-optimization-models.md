@@ -23,7 +23,7 @@ Let's start with the basics of the backend service and then I'll focus on what i
 
 APIs typically shouldn't keep requests waiting for too long. Unfortunately, MIPs don't always play nicely in the sandbox. MIPs may take a long time solving the problem and predicting the solution time is not always easy, given the complexity of the problem is different for each set of inputs. If the API waits for the result of the model, the response time would vary a lot and the failures would be hard to debug. Instead, the underlying optimization model should run as a background process and the client should have a way to check its status.
 
-The simplified architecture of such long running operation would look like this:
+The simplified architecture of a long running operation would look like this:
 
 ![Life of long running processes](../assets/images/long-running-process.svg)
 
@@ -43,7 +43,7 @@ Lastly, monitor memory and CPU consumption closely. I'd recommend this for all p
 
 This is where the fun begins. Optimization models can be hard to debug. Systematic approaches are necessary to allow consistent development of them. As a software engineer, I find it easier to think these tests in terms of traditional tests used in software engineering.
 
-### Unit tests for optimization models
+### Unit Tests 
 
 MIPs comprise sets, parameters, variables, constraints, and an objective function. Each of these components are constructed using "code", which needs testing. You'll likely need to manipulate input data to match the formatting required by the optimization model. Unit tests come into the picture at this phase to make sure the manipulation of the inputs are done correctly.
 
