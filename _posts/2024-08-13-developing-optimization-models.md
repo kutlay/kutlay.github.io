@@ -4,7 +4,9 @@ layout: post
 category: software
 ---
 
-I recently joined a new project to develop an optimization model for Linode's Virtual Machine allocation system which can be summarized as a dynamic multi-dimensional bin packing problem where the items are VMs and the bins are hosts. We approach this problem using a Mixed Integer Program (MIP). Developing the MIP for this problem showed me the very interesting world of operations research and optimization. In this blog post, I will explains the bare minimum requirements for developing an optimization model in a production environment. I am most familiar with resource allocation problems and using MIPs, so this post is definitely more relevant for someone who is also working on a similar problem. If you are not familiar with MIPs, you can read [this article](https://www.gurobi.com/resources/mixed-integer-programming-mip-a-primer-on-the-basics/) by Gurobi which explains the basics very well.  MIPs are used in many resource allocation problems, such as airline scheduling or logistics. Learning about them will certainly give you a new aspect in approaching optimization.
+About 6 months ago, I started working on a very interesting problem At Akamai: optimizing the allocation of virtual machines to hosts. We decided to approach this problem as a dynamic multi-dimensional bin packing problem and started working on a Mixed Integer Program to solve it. I've learned a lot of new techniques while developing the optimization model and wanted to share some tips in a blog post. 
+
+In this blog post, I will explains the bare minimum requirements for developing an optimization model in a production environment. I am most familiar with resource allocation problems and using MIPs, so this post is definitely more relevant for someone who is also working on a similar problem. If you are not familiar with MIPs, you can read [this article](https://www.gurobi.com/resources/mixed-integer-programming-mip-a-primer-on-the-basics/) by Gurobi which explains the basics very well.  MIPs are used in many resource allocation problems, such as airline scheduling or logistics. Learning about them will certainly give you a new aspect in approaching optimization.
 
 Developing this kind of an optimization model generally has two steps. First, you develop the model and show that it works on a small problem. Then, you build tooling to simulate the model's behavior in production, showing the pros and cons, trying to make sure everything is as you expected while also trying to show a case for such service in your organization.
 
@@ -80,3 +82,4 @@ I find it hard to find good content on MIPs in general but I think the following
 [Testing...testing...1, 2, 3](https://www.nextmv.io/blog/testing-testing-1-2-3) (on testing optimization model)
 
 [Predictive CPU isolation of containers at Netflix](https://netflixtechblog.com/predictive-cpu-isolation-of-containers-at-netflix-91f014d856c7) (good use of MIP in production)
+
