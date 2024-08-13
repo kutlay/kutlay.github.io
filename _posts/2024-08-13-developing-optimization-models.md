@@ -2,6 +2,7 @@
 title: Developing Optimization Models for Resource Allocation Problems
 layout: post
 category: software
+image: assets/vmallocation.jpg
 ---
 
 About 6 months ago, I started working on a very interesting problem At Akamai: optimizing the allocation of virtual machines to hosts. We decided to approach this problem as a dynamic multi-dimensional bin packing problem and started working on a Mixed Integer Program to solve it. I've learned a lot of new techniques while developing the optimization model and wanted to share some tips in a blog post. 
