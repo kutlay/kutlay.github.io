@@ -73,10 +73,10 @@ Mixed integer programming is a very powerful technique to solve problems while e
 
 I find it hard to find good content on MIPs in general but I think the following links are extremely valuable:
 
-https://www.youtube.com/watch?v=i1wg23MFA5I&list=PLaoe2MTbJBvpFPyMMSOB-WrHofdHo3e74&ab_channel=MikeWagner (best introduction to LP and MIP for a software engineer that I could find)
+[1.1: Intro to LP and MIP](https://www.youtube.com/watch?v=i1wg23MFA5I&list=PLaoe2MTbJBvpFPyMMSOB-WrHofdHo3e74&ab_channel=MikeWagner) (best introduction to LP and MIP for a software engineer that I could find)
 
-https://www.nextmv.io/blog/the-road-to-production-is-paved-with-testing-and-experimentation
+[The road to production is paved with testing and experimentation](https://www.nextmv.io/blog/the-road-to-production-is-paved-with-testing-and-experimentation)
 
-https://www.nextmv.io/blog/testing-testing-1-2-3 (on testing optimization model)
+[Testing...testing...1, 2, 3](https://www.nextmv.io/blog/testing-testing-1-2-3) (on testing optimization model)
 
-https://netflixtechblog.com/predictive-cpu-isolation-of-containers-at-netflix-91f014d856c7 (good use of MIP in production)
+[Predictive CPU isolation of containers at Netflix](https://netflixtechblog.com/predictive-cpu-isolation-of-containers-at-netflix-91f014d856c7) (good use of MIP in production)
