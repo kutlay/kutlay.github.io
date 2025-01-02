@@ -40,9 +40,9 @@ SELECT
     '2025-03-31 00:00:00' <= '2025-03-31'
 ```
 
-And this returns 0. (because they are strings).
+And this returns 0 (because they are strings).
 
-The solution to this puzzling problem is to simply make to both variables in IFNULL is the same type, so you are not tricked by the generalization of variables.
+The solution is to simply make to both variables in IFNULL is the same type, so you are not tricked by the generalization of variables.
 
 ```
 SELECT 
@@ -50,6 +50,18 @@ SELECT
 ```
 
 Returns 1 as expected.
+
+The above approach works because MYSQL does have a "relaxed" string format while comparing dates (https://dev.mysql.com/doc/refman/8.4/en/using-date.html) but there are limitations.
+
+Even better is to make sure the types are the same by using casting on both sides:
+ 
+```
+SELECT
+    IFNULL(CAST('2025-03-31 00:00:00' AS DATETIME), CAST('0' AS DATETIME)) <= CAST('2025-03-31' AS DATETIME)
+```
+
+
+
 
 
 
