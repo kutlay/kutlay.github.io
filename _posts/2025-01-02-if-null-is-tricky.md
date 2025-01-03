@@ -30,7 +30,7 @@ The first one returns 1, the second one returns 0. The value is not even null, s
 However, looking at the MYSQL documention explains what's going on very clearly:
 
 `The default return type of IFNULL(expr1,expr2) is the more “general” of the two expressions, in the order STRING, REAL, or INTEGER.`
-https://dev.mysql.com/doc/refman/8.4/en/flow-control-functions.html
+[14.5 Flow Control Functions](https://dev.mysql.com/doc/refman/8.4/en/flow-control-functions.html)
 
 The IFNULL statement has '0' which is a string, which makes the return type of IFNULL string, even when the value is not NULL.
 This practically changes the filter to the following:
@@ -51,7 +51,7 @@ SELECT
 
 Returns 1 as expected.
 
-The above approach works because MYSQL does have a "relaxed" string format while comparing dates (https://dev.mysql.com/doc/refman/8.4/en/using-date.html) but there are limitations.
+The above approach works because MYSQL does have a "relaxed" string format while comparing dates ([B.3.4.2 Problems Using DATE Columns](https://dev.mysql.com/doc/refman/8.4/en/using-date.html)) but there are limitations.
 
 Even better is to make sure the types are the same by using casting on both sides:
  
