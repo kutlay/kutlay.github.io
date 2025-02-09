@@ -176,4 +176,4 @@ Additionally, I can run `go test -cpuprofile cpu.prof -memprofile mem.prof -benc
 
 Even though this helps me a lot to improve the MPS reader implementation, it doesn't guarantee correctness for the resulting vectors and the A matrix. The correctness could be guaranteed only by giving the output is given to a solver and comparing the solution with the known solution of the problem. 
 
-Obviously, this requires to have a functioning solver. That brings us to the second part of the blog series: "Solving MILP From Scratch Part 2 - Simplex Algorithm". Stay tuned!
+Obviously, this requires to have a functioning solver. That brings us to the second part of the blog series: "Solving MILP From Scratch Part 2 - Simplex Algorithm". I plan to publish Part 2 in April 2025. Stay tuned!
