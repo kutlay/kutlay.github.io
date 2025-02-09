@@ -7,7 +7,7 @@ image: assets/images/punchcard.jpg
 
 Soon after I started working on mixed integer linear programs (MILPs), it became obvious that the representation of the problem is very important in keeping the problem small and making it easier to solve for a mathematical solver. There are many ways to represent a problem and it is not always clear which one is the best. It takes a great amount of experience and knowledge about the underlying processes to get it right.
 
-I thought a good (and fun) way to understand how to write better models would be to write a MILP solver from scratch to teach myself the fundamentals of it. The process of solving a MILP is very well known. [There are many mathematical solvers]([https://web.archive.org/web/20250105160933/https://plato.asu.edu/ftp/milp_old.html), the best ones being the commercial ones. The open source alternatives are strong enough to solve small to medium size problems, but often take a very long time for large problems.
+I thought a good (and fun) way to understand how to write better models would be to write a MILP solver from scratch to teach myself the fundamentals of it. The process of solving a MILP is very well known. [There are many mathematical solvers](https://web.archive.org/web/20250105160933/https://plato.asu.edu/ftp/milp_old.html), the best ones being the commercial ones. The open source alternatives are strong enough to solve small to medium size problems, but often take a very long time for large problems.
 
 In this blog series I will attempt to write yet another MILP solver. Obviously the goal of this solver is not to be the best or the fastest. The goal is to be able to create one from scratch and understand the basics of linear programs. 
 
