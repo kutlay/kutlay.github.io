@@ -1,15 +1,15 @@
 ---
-title: Solving MILP From Scratch Part 1 - Reading MPS 
+title: Writing a MILP Solver From Scratch Part 1 - Reading MPS 
 layout: post
 category: software
 image: assets/images/punchcard.jpg
 ---
 
-Soon after I started working on mixed integer linear programs (MILPs), it became obvious that the representation of the problem is very important to keep the problem small and easier to solve for a mathematical solver. There are many ways to represent a problem and it is not always clear which one is the best. It takes a great amount of experience and knowledge about the underlying processes to get it right.
+Soon after I started working on mixed integer linear programs (MILPs), it became obvious that the representation of the problem is very important in keeping the problem small and making it easier to solve for a mathematical solver. There are many ways to represent a problem and it is not always clear which one is the best. It takes a great amount of experience and knowledge about the underlying processes to get it right.
 
-I thought a good (and fun) way to understand how to write better models would be to write a MILP solver from scratch to teach myself the fundamentals of it. The process of solving a MILP is a very well known. [There are many mathematical solvers]([https://web.archive.org/web/20250105160933/https://plato.asu.edu/ftp/milp_old.html), the best ones being the licensed ones. The open source alternatives are strong enough to solve small to medium size problems, but often take a very long time for large problems.
+I thought a good (and fun) way to understand how to write better models would be to write a MILP solver from scratch to teach myself the fundamentals of it. The process of solving a MILP is very well known. [There are many mathematical solvers]([https://web.archive.org/web/20250105160933/https://plato.asu.edu/ftp/milp_old.html), the best ones being the commercial ones. The open source alternatives are strong enough to solve small to medium size problems, but often take a very long time for large problems.
 
-In this blog series I will be attempting to write yet another MILP solver. Obviously the goal of this solver is not to be the best or the fastest. The goal is to be able to create one from scratch and understand the basics of linear programs. 
+In this blog series I will attempt to write yet another MILP solver. Obviously the goal of this solver is not to be the best or the fastest. The goal is to be able to create one from scratch and understand the basics of linear programs. 
 
 Here is the agenda for this blog series:
 
@@ -21,7 +21,7 @@ Here is the agenda for this blog series:
 
 I'm writing a MILP solver to learn about MILPs but also to experiment with a new (to me) programming language: Go
 
-I hope to leverage Go's "goroutines" in the 3rd part of this journey, while finding an integer solution to the problem. Finding an integer solution requires to construct a "branch and bound" tree where each node of the tree has some of the variables fixed to an integer value and the LP solution is applied to the rest of the variables. This process could benefit a lot from searching the tree concurrently. I think Go's concurrency tools will be useful while solving this problem.
+I hope to leverage Go's "goroutines" in the 3rd part of this journey, while finding an integer solution to the problem. Finding an integer solution requires constructing a "branch and bound" tree where each node of the tree has some of the variables fixed to an integer value and the LP solution is applied to the rest of the variables. This process could benefit a lot from searching the tree concurrently. I think Go's concurrency tools will be useful while solving this problem.
 
 ## Defining LP/MILP models
 
@@ -54,7 +54,7 @@ ENDATA
 ```
 
 
-This problem can also be written much more human readable in the LP format like the following:
+This problem can also be written in a much more human-readable format like the following:
 
 ```
 min: +XONE +4 YTWO +9 ZTHREE;
@@ -65,7 +65,7 @@ XONE <= 4;
 YTWO >= -1;
 YTWO <= 1;
 ```
-From LP Solve's  [MPS file format documentation](https://lpsolve.sourceforge.net/5.0/mps-format.htm)
+(LP file format, from LP Solve's  [MPS file format documentation](https://lpsolve.sourceforge.net/5.0/mps-format.htm) )
 
 Despite the obvious benefits of the latter, the industry is still using MPS format widely. For my solver, I will only implement a reader
 for the MPS file format, as my main goal is to create a solver that can solve some of the benchmark instances from [MIPLIB benchmark library](https://miplib.zib.de/), which are always in MPS format.
@@ -76,22 +76,22 @@ MPS is a relatively easy format to parse. The file has 6 sections (ROWS, COLUMNS
 
 ### Rows
 
-Rows section defines the names and the types of each constraint. The names are arbitrary user defined names. Types can be E for equality, L for less than or equal to (<=), and G for greater than or equal to (>=).
+The "Rows" section defines the names and the types of each constraint. The names are arbitrary user defined names. Types can be E for equality, L for less than or equal to (<=), and G for greater than or equal to (>=).
 
 ### Columns
 
-Columns section defines where each column (or variable) is put to which rows (constraints). This is generally the largest part of the MPS file
+The "Columns" section defines where each column (or variable) is put to which rows (constraints). This is generally the largest part of the MPS file
 since it needs to have an input for all the column to row assignments. Any unmentioned assignment is assumed to have a coefficient of zero in the row.
 
 In addition, any variable that is an integer needs to be within the INTORG and INTEND markers. Every other variable is assumed to be non integer.
 
 ### RHS
 
-Right Hand Side (RHS) section defines the right hand side of the constraints. For example, if the model expresses a constraint like `XONE <= 4`, the right hand side would be 4.
+The "Right Hand Side (RHS)" section defines the right hand side of the constraints. For example, if the model expresses a constraint like `XONE <= 4`, the right hand side would be 4.
 
 ### Bounds
 
-Bounds section defines the limits of each variable. By default, all columns are assumed to be positive (or have a bound 0 <= x <= infinity). For all other variable level constraints, a bound can be expressed in many types (such as LO for lower bound or UP for upper bound).
+The "Bounds" section defines the limits of each variable. By default, all columns are assumed to be positive (or have a bound 0 <= x <= infinity). For all other variable level constraints, a bound can be expressed in many types (such as LO for lower bound or UP for upper bound).
 
 ## Output of the MPS reader
 
@@ -114,7 +114,7 @@ If you're careful, you'll realize that there are way more coefficients in the ou
 
 ## Testing the MPS reader
 
-Now that I have an MPS reader that can read the simplest MPS file in the world. I have unit tests covering most of the implementation so I am fairly confident that the reader is doing the right thing. I can only read both the MPS file and the output to decide if it's doing the right thing. However, despite the unit tests I have, it's hard to know if this program could read all kinds of different MPS files in the wild. 
+Now that I have an MPS reader that can read the simplest MPS file in the world. I have unit tests covering most of the implementation, so I am fairly confident that the reader is doing the right thing. I can only read both the MPS file and the output to decide if it's doing the right thing. However, despite the unit tests I have, it's hard to know if this program could read all kinds of different MPS files in the wild. 
 
 Thankfully the benchmarking framework I mentioned above is also a great library for testing. At the end of the day, if the program reads all MPS files from the benchmarking set and gives a correct result, we're good. I got the list of "easy" problems from the [MIPLIB](https://miplib.zib.de/) library, put it in the "miplib_easy.txt" and wrote a little bash script to download them all:
 
