@@ -21,7 +21,7 @@ I use a [Linode GPU instance with RTX4000 Ada GPU](https://www.linode.com/pricin
 
 ## Installation
 
-Installing CuOpt is pretty simple. However, this was my first time dealing with CUDA, so I had to search around a bit to get the right drivers installed. I prepared a small Github repository to share 3 scripts you can simply copy&paste to get your machine working with necessary drivers and CuOpt installed: https://github.com/kutlay/getting-started-with-cuopt These scripts are tested on an Ubuntu 24.04 Linode GPU instance. Installation takes about ~15 minutes.
+Installing CuOpt is pretty simple. However, this was my first time dealing with CUDA, so I had to search around a bit to get the right drivers installed. I prepared a small Github repository to share 3 scripts you can simply copy&paste to get your machine working with necessary drivers and CuOpt installed: [kutlay/getting-started-with-cuopt](https://github.com/kutlay/getting-started-with-cuopt) These scripts are tested on an Ubuntu 24.04 Linode GPU instance. Installation takes about ~15 minutes.
 
 ## First try
 
@@ -66,7 +66,7 @@ mcf_5000_50_500        2775050         126250050       253750050
 
 These cards seem hard to compare but in various different benchmarks ([1](https://bizon-tech.com/gpu-benchmarks/NVIDIA-A100-80-GB-(PCIe)-vs-NVIDIA-H100-NVL-(PCIe)-vs-NVIDIA-RTX-6000-Ada/624vs632vs640?srsltid=AfmBOoo8FqbJjd3OJokPvI04tmFS0Hx-xz-moEiZrdu9W6XL4E0d8n0n), [2](https://forums.developer.nvidia.com/t/performance-of-6000-ada-vs-h100-for-multi-modal-object-detection-training/315835?utm_source=chatgpt.com), [3](https://www.naddod.com/blog/comparing-nvidia-top-ai-gpus-h100-a100-a6000-and-l40s?srsltid=AfmBOopdWp1CtNAwINk48ynz3sMoZlu-RT4BvDaC0LN1O9MShHv1hGw6&utm_source=chatgpt.com)) H100 performs at least 2x better than RTX A6000. Price wise, H100 was roughly 5 times more expensive than RTX A6000. Keeping these in mind, the benchmark results from Mittelmann seem promising as H100 was between 2x and 6x faster than RTX A6000 (except for one of the problems).
 
-The problems chosen for the above benchmarks are very large and may not apply to a lot of fields where mathematical solvers are used. It is hard to say what types of problems would benefit how much from a larger GPU.
+The problems chosen for the above benchmarks are very large and may not apply to a lot of fields where mathematical solvers are used. It is hard to say what types of problems would benefit how much from a larger GPU. I encourage everyone to try CuOpt with different cards and observe how the scaling works for their problem. 
 
 ## Conclusion
 
