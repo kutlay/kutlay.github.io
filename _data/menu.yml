@@ -16,10 +16,10 @@ entries:
     post_list:
       category: errors
 
-  - title: favorite reads
-    entries:
-      - title: Folklore.org
-        url: https://www.folklore.org
+  # - title: favorite reads
+  #   entries:
+  #     - title: Folklore.org
+  #       url: https://www.folklore.org
 
   # - title: data
   #   post_list:
