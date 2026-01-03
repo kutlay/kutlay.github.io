@@ -5,6 +5,8 @@ category: software
 image: assets/images/cuopt-thumbnail.jpg
 ---
 
+(This blog post later got published on <a href="https://www.akamai.com/blog/cloud/how-to-get-started-nvidia-cuopt">Akamai Blog</a>)
+
 NVIDIA announced its GPU accelerated PDLP implementation last year. The announcement included benchmarking results for a set of problems from [MIPLIB benchmark library](https://miplib.zib.de/) and claimed to be faster than the state-of-the-art CPU-based LP solver in 60% of the problems.
 
 However, this new method comes with challenges. The initial announcement mentioned convergence issues and lower accuracy in some of the problems. Other sources, such as the [HiGHS Newsletter](https://highs.dev/assets/HiGHS_Newsletter_25_0.pdf) and the [FICO Blog](https://www.fico.com/blogs/gpu-powered-optimization-nvidia-cuopt), have echoed similar concerns.
