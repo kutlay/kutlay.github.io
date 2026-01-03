@@ -4,8 +4,9 @@
 entries:
   - title: about
     entries:
-      - title: A software engineer who enjoys data
-      - title: "Currently <a href='https://akamai.com' target='_BLANK'>@Akamai</a> optimizing CDN delivery and solving VM allocation/capacity planning problems"
+      - title: I am a software engineer with a 3 years of experience. 
+      - title: I currently work at <a href='https://www.akamai.com' target='_BLANK'>Akamai Technologies</a>, building decision making systems for large scale CDN and cloud platforms. 
+      - title: At the intersection of software engineering, data science, and operations research; I have built schedulers and optimizers for various use cases including VM allocation, capacity planning, and traffic engineering.
       - title: "<a href='https://www.linkedin.com/in/atalay-kutlay/' target='_BLANK'>Linkedin</a>"
 
   - title: software
