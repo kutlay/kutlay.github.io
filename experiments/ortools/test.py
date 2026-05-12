@@ -5,7 +5,7 @@ model = cp_model.CpModel()
 
 hosts = ["host_1"]
 vms = {"host_1": ["vm_1", "vm_2", "vm_3"]}
-planning_horizon = 100
+planning_horizon = 1000
 migration_duration = 10
 
 vm_interval_vars = {}
@@ -26,6 +26,7 @@ for host in hosts:
 migration_throughput = {"vm_1": 5, "vm_2": 3, "vm_3": 2}
 host_maximum_throughput = 5
 
+# Make sure the maximum migration throughput does not exceed 5
 for host, vms_dict in vm_interval_vars.items():
     vm_intervals = list(vms_dict.values())
     vm_throughputs = [migration_throughput[vm] for vm in vms_dict.keys()]
@@ -33,7 +34,6 @@ for host, vms_dict in vm_interval_vars.items():
     model.AddCumulative(vm_intervals, vm_throughputs, host_maximum_throughput)
 
 solver = cp_model.CpSolver()
-# Set settings to log eevrythingh
 solver.parameters.log_search_progress = True
 status = solver.Solve(model)
 print(status)

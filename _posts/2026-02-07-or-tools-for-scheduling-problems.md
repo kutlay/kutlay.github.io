@@ -148,7 +148,35 @@ As expected, we see VM 2 and VM 3 being migrated at the same time, while VM1 is 
 
 In order to understand why OR-Tools is a great choice, you need to understand the alternatives. One of the most common technique for solving scheduling problems is Mixed Integer Programming (MIP), which uses linear equations to represent the relationships between variables. There are many open-source MIP solvers out there but none of them gives you the tools to easily model time and scheduling constraints. 
 
+### "Easy" Method: Time-Indexed Formulation
 
+The easy way to implement a scheduling problem with MIP is to use a time-indexed formulation, where you create binary variables that indicate whether a task is active at a specific time. For example, you can create a binary variable `active[i, t]` that is 1 if task `i` is active at time `t`, and 0 otherwise. Then, you can add constraints to ensure that the total resource usage at any given time does not exceed the available capacity. 
+
+To demonstrate a small example, I will use Pyomo to model the same problem as above with a time-indexed formulation. 
+
+First, let's define the sets and variables. Similar to above, we need to define a variable for each VM's start time. In addition, we also need to define a binary variable to indicate if the VM is actively migrating at time t or not.
+
+```
+model = pyo.ConcreteModel()
+
+# Sets
+model.VMS = pyo.Set(initialize=vms["host_1"])
+model.TIME = pyo.RangeSet(0, planning_horizon)
+
+# Variables
+# Start time for each VM migration
+model.start = pyo.Var(
+    model.VMS, domain=pyo.NonNegativeIntegers, bounds=(0, planning_horizon)
+)
+# Binary variable: is VM migrating at time t?
+model.vm_active = pyo.Var(model.VMS, model.TIME, domain=pyo.Binary)
+
+# Objective: Minimize makespan (completion time of last migration)
+model.makespan = pyo.Var(domain=pyo.NonNegativeReals, bounds=(0, planning_horizon))
+model.obj = pyo.Objective(expr=model.makespan, sense=pyo.minimize)
+```
+
+However, this approach can lead to a very large number of variables and constraints, especially if the planning horizon is long or if there are many tasks. This can make the model difficult to solve and may not scale well.
 
 
 ## Modeling the Problem with Mixed Integer Programming (MIP)
