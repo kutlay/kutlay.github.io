@@ -1,7 +1,7 @@
 ---
 title: Running Stable Diffusion Models on CPU
 layout: post
-category: software
+category: posts 
 ---
 
 I recently got into deep learning and went over <a href="https://www.youtube.com/watch?v=QDX-1M5Nj7s&list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI" target="_BLANK">MIT's 6.S191</a> to understand the fundamentals. I absolutely recommend at least doing their labs as they teach you the fundamentals pretty quickly and give you some hands-on experience.

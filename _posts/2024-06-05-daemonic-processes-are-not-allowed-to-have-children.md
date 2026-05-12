@@ -1,7 +1,7 @@
 ---
 title: Airflow - Daemonic processes are not allowed to have children
 layout: post
-category: errors
+category: posts 
 ---
 
 I am using the docker-compose.yml provided by Airflow to run <a href="https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html" target="_BLANK">Airflow on Docker</a>. It is a fairly complete setup with a CeleryExecutor so you are not limited to 1 DAG run at a time.

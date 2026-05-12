@@ -1,7 +1,7 @@
 ---
 title: Developing Optimization Models for Resource Allocation Problems
 layout: post
-category: software
+category: posts 
 image: assets/images/vmallocation.jpg
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Getting Started with NVIDIA CuOpt 
 layout: post
-category: software
+category: posts 
 image: assets/images/cuopt-thumbnail.jpg
 ---
 

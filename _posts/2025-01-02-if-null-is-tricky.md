@@ -1,7 +1,7 @@
 ---
 title: MySQL IFNULL is tricky 
 layout: post
-category: software
+category: posts 
 ---
 
 I started the new year with a very puzzling bug. One of the users of my internal dashboard tool told me that he doesn't see some of the rows he expected to see. I checked the query that populated the view, which had various filters but none of them looked suspicious, expect one of them. There was an `IFNULL` looking at me in the query which smelled awful.

@@ -1,7 +1,7 @@
 ---
 title: Writing a MILP Solver From Scratch Part 1 - Reading MPS 
 layout: post
-category: software
+category: posts 
 image: assets/images/punchcard.jpg
 ---
 
