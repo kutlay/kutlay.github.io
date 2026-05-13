@@ -22,7 +22,8 @@ The process of evacuating multiple hosts for maintenance involves a complex sche
 
 With these challenges in mind, the goal of the scheduling problem is to find a schedule for the maintenance tasks that minimizes the total time to complete all maintenance while respecting these constraints.
 
-If you're interested in this problem, feel free to check out my SRECon26 presentation: https://www.usenix.org/conference/srecon26americas/presentation/kutlay
+If you're interested in this problem, feel free to check out my SRECon26 presentation: [Keeping a Hypervisor Fleet Up to Date with Minimal Customer Disruption
+](https://www.usenix.org/conference/srecon26americas/presentation/kutlay)
 
 ## How to Model the Problem
 
