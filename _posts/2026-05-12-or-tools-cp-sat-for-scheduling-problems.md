@@ -186,8 +186,6 @@ The graph below shows how the solve time of the time-indexed formulation grows a
 
 ![Graph showing exponential growth of the solve time for time-indexed formulation](assets/images/cpsat_vs_easy_mip.png)
 
-If you're interested, you can also find an alternative MIP formulation for this problem in the appendix below. It is more efficient, but much more complex to come up with and understand compared to the CP-SAT formulation.
-
 ### Time-Continuous Formulation for MIP
 
 An alternative way to formulate the same problem is the time-continuous formulation. Instead of tracking whether a task is active at each discrete time step, you can drop the time index completely and introduce binary *ordering* variables between pairs of tasks. This is not an easy formulation to come up with, and it is not as intuitive as the CP-SAT formulation, but it can be more efficient for small problems with large planning horizons.
