@@ -4,37 +4,39 @@ layout: post
 category: software
 ---
 
-I've been working on improving how we schedule maintenance in Akamai's cloud infrastructure with a focus on scheduling disruptive maintenance for hypervisor hosts, where we host hundreds of thousands of guest VMs. The prolem is quite complex and it involves understanding wide range of lmitations such as capacity constraints, customer disruption SLAs, and concurrency limits due to limited resources to do migrations in multiple levels (host, rack, datacenter etc.).
+I've been working on improving how we schedule maintenance in Akamai's cloud infrastructure with a focus on scheduling disruptive maintenance for hypervisor hosts, where we host hundreds of thousands of guest VMs. The prolem is quite complex and it involves understanding a wide range of competing priorities such as capacity constraints, customer disruption SLAs, and concurrency limits due to limited resources to do migrations in multiple levels (host, rack, datacenter etc.).
 
-While developing prototypes for the solution, I tried various optimization tools including commercial and open-source Mixed Integer Programming (MIP) solvers. After trying out various options, I found that Google's OR-Tools library, particularly its CP-SAT solver, stood out as a great choice for tackling scheduling problems. In this post, I'll walk you through modeling a simple scheduling problem using OR-Tools and explain why it is a powerful tool for this type of problem.
+While developing prototypes to solve this problem, I tried various optimization tools including commercial and open-source Mixed Integer Programming (MIP) solvers. After trying out various options, I found that Google's OR-Tools library, particularly its CP-SAT solver, stood out as a great choice for solving scheduling problems. In this post, I'll walk you through modeling a simple scheduling problem using OR-Tools and explain why it is a great tool for scheduling problems.
 
 ## Maintenance Scheduling in Cloud Infrastructure
 
-First off, let me explain the problem a bit more. As with any other attempt to benchmark a software, it's important to know that the results on this blog post are specific to the problem I'm trying to solve.
+First, let me explain the problem I am trying to solve. Cloud providers manage physical servers called "hypervisor hosts" that run virtual machines (VMs) for customers. These hosts need to be maintained periodically to ensure security and reliability. Some of these maintenance tasks can be done with live patches that don't require a reboot. Handling live patches is relatively straightforward and the main challenge is safely rolling out updates. However, some maintenance tasks require a reboot of the host. Before the host is rebooted, all VMs on the host need to be migrated to other hosts. This process is disruptive to customers, and it requires careful scheduling to minimize the impact on customers while ensuring that all maintenance tasks are completed in a reasonable time frame.
 
-In cloud, there are physical servers called "hypervisor hosts" that run virtual machines (VMs) for customers. These hosts need to be maintained periodically to ensure security and reliability. Some of these maintenance tasks can be done with live patches (without a reboot), while others require all of the VMs on the host to be evacuated and then host to be rebooted. Handling live patches is relatively straightforward and the main focus is on safely rolling out updates. However, for maintenance that requires host reboot, VMs need to be migrated off to other hosts first, which brings the following challenges:
+The process of evacuating multiple hosts for maintenance involves a complex scheduling problem with several constraints. The main challenges can be summarized as the "3Cs":
 
-3Cs: Capacity, Concurrency, Conflict:
+**Capacity**: Evacuating hosts require spare capacity in the datacenter to accomodate the migrated VMs.
 
-**Capacity**: You need to find a host with enough capacity to take the VMs. 
+**Concurrency**: Migrations are resource intensive operations. They use CPU, disk I/O, and network bandwidth. Only a limited number of migrations can be performed concurrently without overloading the hosts or the network.
 
-**Concurrency**: You need to make sure that the migration operations do not overload the network or storage systems, which can only handle a limited number of concurrent migrations.
+**Conflict**: Customers tolerate a certain amount of disruption during maintenance but a planned maintenance should not cause too much disruption. This means only a small portion of any given customer's VMs can be migrated at the same time.
 
-**Conflict**: You need to make sure that the selected machine doesn't have VMs that would violate customer SLAs when migrated.
+With these challenges in mind, the goal of the scheduling problem is to find a schedule for the maintenance tasks that minimizes the total time to complete all maintenance while respecting these constraints.
 
-I'll be talking more about maintenance scheduling at SRECON26 in March. You can check out the conference page for more details: https://www.usenix.org/conference/srecon26americas/presentation/kutlay
+If you're interested in this problem, feel free to checkout my SRECon26 presentation: https://www.usenix.org/conference/srecon26americas/presentation/kutlay
 
 ## How to Model the Problem
 
-Operation Research (OR) is a well-established field that focuses on using mathematical models, statistics, and algorithms to aid in decision-making. OR researchers have been working on scheduling problems for decades, and they have come up with various "problem types" that capture the essence of different scheduling challenges. Some of the well-known problem types include Job Shop Scheduling, Flow Shop Scheduling, and Resource-Constrained Project Scheduling. Knowing the right problem type to model your scheduling problem helps you to leverage the existing research and algorithms that have been developed for that problem type. It is likely that your problem won't exactly match one of the standard problem types, but you can often find a close enough match that allows you to use the existing tools and techniques effectively.
+Operation Research (OR) is a well-established field that uses algorithms and mathematical models to solve complex decision-making problems. OR researchers have been working on scheduling problems for decades, and they have come up with various "problem types" that capture the essence of different scheduling challenges. Some of the well-known problem types include Job Shop Scheduling, Flow Shop Scheduling, and Resource-Constrained Project Scheduling. Knowing the right problem type to model your scheduling problem helps you to leverage the existing research and algorithms that have been developed for that problem type. 
 
 Maintenance scheduling in cloud is close to a Resource-Constrained Project Scheduling Problem (RCPSP) without the precedence constraints. In RCPSP, you have a set of tasks that need to be scheduled, each with its own duration and resource requirements. The goal is to find a schedule that minimizes the overall project duration while respecting resource constraints. Similarly in maintenance scheduling, each VM migration can be seen as a task that require certain resources (see 3Cs above) and the goal is to minimize the total time to complete all maintenance tasks.
 
 ## Modeling the Problem with OR-Tools CP-SAT Solver
 
-OR-Tools is an open-source software suite developed by Google that provides a collection of tools for solving combinatorial optimization problems. One of its key components is the CP-SAT solver, which is a versatile portfolio solver that can handle a wide range of scheduling problems. For any given problem, CP-SAT tries to apply a wide range of algorithms to solve the problem and handles the information share in between them. CP-SAT does this because it is simply impossible to guess which algorithm will work best for a given problem (No Free Lunch Theorem). 
+OR-Tools is an open-source software suite developed by Google that provides a collection of tools for solving combinatorial optimization problems. One of its key components is the CP-SAT solver, which is a versatile portfolio solver that can handle a wide range of scheduling problems. For any given problem, CP-SAT tries to apply a wide range of algorithms to solve the problem and handles the information share in between them. 
 
-CP-SAT is particularly well-suited for scheduling problems because it has specialized variables and constraints that can model time, which makes the formulation of scheduling problems more intuitive and efficient. 
+
+
+CP-SAT is particularly well-suited to model scheduling problems because it has specialized variables and constraints that can model time, which makes the formulation of scheduling problems more intuitive and efficient. 
 
 Let me give you code examples to illustrate this point. First, let's set up a toy problem for ourselves, where we have a single hypervisor host that needs to be maintained, and we have 3 VMs that need to be migrated off of it. Let's assume each migration takes 10 time units, and we want to consider solutions that can be completed within 100 time units.
 
@@ -99,7 +101,7 @@ for host, vms_dict in vm_interval_vars.items():
     )
 ```
 
-The second argument in `AddCumulative` is the list of resource usages for each interval variable, which in this case is simply 1 for each migration since each migration consumes one unit of the resource. A more powerful use of AddCumulative would be to set different resource usages for different migrations, which is more useful to model real constraints like "throughput". If some VMs can be migrated with higher throughput than others, instead of limiting the number of concurrent migrations, you can limit the total throughput at any given time:
+The second argument in `AddCumulative` is the list of resource usages for each interval variable, which in this case is simply 1 for each migration since each migration consumes one unit of the resource. A more powerful use of AddCumulative would be to set different resource usages for migrations, which is more useful to model real constraints like "throughput". If some VMs can be migrated with higher throughput than others, instead of limiting the number of concurrent migrations, you can limit the total throughput at any given time:
 
 ```
 migration_throughput = {"vm_1": 5, "vm_2": 3, "vm_3": 2}
@@ -146,9 +148,11 @@ As expected, we see VM 2 and VM 3 being migrated at the same time, while VM1 is 
 
 ## Why OR-Tools?
 
-In order to understand why OR-Tools is a great choice, you need to understand the alternatives. One of the most common technique for solving scheduling problems is Mixed Integer Programming (MIP), which uses linear equations to represent the relationships between variables. There are many open-source MIP solvers out there but none of them gives you the tools to easily model time and scheduling constraints. 
+In order to understand why OR-Tools is a great choice, you need to understand the alternatives. Another common technique for solving scheduling problems is Mixed Integer Programming (MIP). There are many open-source MIP solvers out there but none of them gives you the tools to easily model time and scheduling constraints.
 
-### "Easy" Method: Time-Indexed Formulation
+There are two ways to solve this scheduling problem with MIP: Time-Indexed Formulation and Time-Continuous Formulation. The time-indexed formulation is intuative but it does not scale well as the number of tasks and the planning horizon increases. The time-continuous formulation is more efficient but it is not as intuitive and it requires a lot of effort to come up with the right formulation.
+
+### "Easy" MIP Method: Time-Indexed Formulation
 
 The easy way to implement a scheduling problem with MIP is to use a time-indexed formulation, where you create binary variables that indicate whether a task is active at a specific time. For example, you can create a binary variable `active[i, t]` that is 1 if task `i` is active at time `t`, and 0 otherwise. Then, you can add constraints to ensure that the total resource usage at any given time does not exceed the available capacity. 
 
@@ -178,9 +182,72 @@ model.obj = pyo.Objective(expr=model.makespan, sense=pyo.minimize)
 
 However, this approach can lead to a very large number of variables and constraints, especially if the planning horizon is long or if there are many tasks. This can make the model difficult to solve and may not scale well.
 
+The graph below shows how the solve time of the time-indexed formulation grows as we increase the number of VMs and the planning horizon. As you can see, the solve time grows exponentially, which makes it impractical for larger problems.
 
-## Modeling the Problem with Mixed Integer Programming (MIP)
+![Graph showing exponential growth of the solve time for time-indexed formulation](assets/images/cpsat_vs_easy_mip.png)
 
-Mixed Integer Programming (MIP) is the most commonly used technique for solving optimization problems. MIP models use linear equations to represent the relationships between variables, and they can handle both continuous and discrete variables. For example, you can use a binary variable to represent whether a VM is migrated at a specific time. Then, you can sum up the binary variables to count the total number of VMs migrated in a given time window, and add constraints to ensure that the number of concurrent migrations does not exceed the allowed limit.
+If you're interested, you can also find an alternative formulation for this problem using MIP in the appendix section below, which is more efficient but much more complex to come up with and understand compared to the CP-SAT formulation. 
 
+## Conclusion
+
+It is important to choose the right tool for the job. Scheduling problems have unique set of constraints that make them difficult to model and solve with MIPs. OR-Tools CP-SAT solver provides powerful abstractions that allow you to model scheduling problems in an intuative and efficient way. With CP-SAT's `AddNoOverlap` and `AddCumulative` constraints that make use of the interval variables, it is much easier to express the concurrency and resource constraints that are common in scheduling problems.
+
+If you're facing a scheduling problem, I'd strongly recommend trying OR-Tools CP-SAT.
+
+
+### Appendix: Time-Continuous Formulation for MIP
+
+An alternative method to formulate the same problem is the time-continuous formulation. Instead of tracking whether a task is active at each discrete time step, you can drop the time-index compeltely and introduce binary *ordering* variables between pairs of tasks. This is not an easy formulation to come up with, and it is not as intuitive as the CP-SAT formulation, but it can be more efficient for small problems with large planning horizons.
+
+The core idea is the following: for any two tasks `i` and `j` that share a resource, exactly one of them must come first. We encode this with a binary variable `y[i, j]` that equals 1 if task `i` finishes before task `j` starts. 
+
+```python
+model = pyo.ConcreteModel()
+
+M = planning_horizon  # Big-M constant
+
+model.VMS = pyo.Set(initialize=vms["host_1"])
+model.VM_PAIRS = pyo.Set(initialize=[
+    (i, j) for i in vms["host_1"] for j in vms["host_1"] if i != j
+])
+
+# Start time for each VM migration
+model.start = pyo.Var(model.VMS, domain=pyo.NonNegativeIntegers, bounds=(0, planning_horizon))
+
+# Ordering variable: y[i,j] = 1 means task i finishes before task j starts
+model.y = pyo.Var(model.VM_PAIRS, domain=pyo.Binary)
+
+# Makespan
+model.makespan = pyo.Var(domain=pyo.NonNegativeReals, bounds=(0, planning_horizon))
+model.obj = pyo.Objective(expr=model.makespan, sense=pyo.minimize)
+```
+
+For the no-overlap constraint (equivalent to `AddNoOverlap` in CP-SAT), we need two things: a constraint that enforces ordering when `y[i,j] = 1`, and a constraint that ensures exactly one ordering is chosen between each pair:
+
+```python
+
+# If i precedes j (y[i,j]=1), then j must start after i ends
+model.precedence = pyo.Constraint(
+    model.VM_PAIRS,
+    rule=lambda model, i, j: model.start[j] >= model.start[i] + migration_duration - M * (1 - model.y[i, j])
+)
+
+# exactly one ordering must hold
+model.one_ordering = pyo.Constraint(
+    model.VM_PAIRS,
+    rule=lambda model, i, j: model.y[i, j] + model.y[j, i] == 1
+)
+
+# Makespan must be >= all end times
+model.makespan_constraint = pyo.Constraint(
+    model.VMS,
+    rule=lambda model, i: model.makespan >= model.start[i] + migration_duration
+)    
+```
+
+The number of variables is now `O(n²)` in the number of tasks. If the problem has a small number of VMs and a long planning horizon, this may be a significant improvement over the `O(n × T)` of the time-indexed formulation. For a planning horizon of, say, 1440 minutes (one day), the time-indexed model creates 1440× more variables per task, which quickly overwhelms the solver. 
+
+However, in order to implement the "AddCumulative" constraint in CP-SAT, we need a much more complicated constraint. The challenge is that at the start time of each task `i`, you need to ensure the total throughput of all concurrent tasks does not exceed the host's limit. 
+
+"Task `j` is active when task `i` starts" is itself a compound condition (`start[j] <= start[i]` *and* `start[i] < start[j] + duration[j]`), and linearizing it requires yet another binary variable per pair plus two more Big-M constraints per pair. This quickly becomes unwieldy and difficult to understand, which is why the CP-SAT formulation with interval variables is so much more elegant and easier to work with for scheduling problems.
 
