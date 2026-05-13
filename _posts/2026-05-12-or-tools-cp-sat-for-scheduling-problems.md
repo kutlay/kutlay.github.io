@@ -4,9 +4,9 @@ layout: post
 category: posts 
 ---
 
-I've been working on improving how we schedule maintenance in Akamai's cloud infrastructure with a focus on scheduling disruptive maintenance for hypervisor hosts, where we host hundreds of thousands of guest VMs. The prolem is quite complex and it involves understanding a wide range of competing priorities such as capacity constraints, customer disruption SLAs, and concurrency limits due to limited resources to do migrations in multiple levels (host, rack, datacenter etc.).
+I’ve been working on improving how we schedule maintenance in Akamai’s cloud infrastructure, especially disruptive maintenance on hypervisor hosts serving hundreds of thousands of guest VMs. The problem is fairly complex, with competing constraints like capacity, customer disruption SLAs, and concurrency limits across hosts, racks, and datacenters.
 
-While developing prototypes to solve this problem, I tried various optimization tools including commercial and open-source Mixed Integer Programming (MIP) solvers. After trying out various options, I found that Google's OR-Tools library, particularly its CP-SAT solver, stood out as a great choice for solving scheduling problems. In this post, I'll walk you through modeling a simple scheduling problem using OR-Tools and explain why it is a great tool for scheduling problems.
+While prototyping solutions, I tried several optimization tools, including commercial and open-source MIP solvers. After exploring different options, I found Google’s OR-Tools library, particularly its CP-SAT solver, to be a strong fit for scheduling problems. In this post, I’ll walk through a simple scheduling model in OR-Tools and explain why it works well for this kind of problem.
 
 ## Maintenance Scheduling in Cloud Infrastructure
 
