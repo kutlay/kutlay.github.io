@@ -5,8 +5,7 @@ entries:
   - title: about
     entries:
       - title: I am a senior software engineer at <a href='https://www.akamai.com' target='_BLANK'>Akamai Technologies</a> building decision-making systems for large-scale CDN and cloud platforms.
-      - title: I design schedulers and optimization systems for problems including VM allocation, capacity planning, traffic engineering, and fleet maintenance.
-      - title: My interests include distributed systems, mathematical optimization and large-scale cloud infrastructure.
+      - title: My interests include distributed systems, mathematical optimization, and large-scale cloud infrastructure.
       - title: "<a href='https://www.linkedin.com/in/atalay-kutlay/' target='_BLANK'>Linkedin</a>"
 
   - title: Posts
