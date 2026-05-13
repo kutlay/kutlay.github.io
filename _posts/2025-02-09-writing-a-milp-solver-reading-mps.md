@@ -1,5 +1,5 @@
 ---
-title: Writing a MILP Solver From Scratch Part 1 - Reading MPS 
+title: Writing a MILP Solver From Scratch - Reading MPS 
 layout: post
 category: posts 
 image: assets/images/punchcard.jpg
