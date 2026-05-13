@@ -238,7 +238,7 @@ model.makespan_constraint = pyo.Constraint(
 )    
 ```
 
-The number of variables is now `O(n²)` in the number of tasks. If the problem has a small number of VMs and a long planning horizon, this may be a significant improvement over the `O(n × T)` of the time-indexed formulation. For a planning horizon of, say, 1440 minutes (one day), the time-indexed model creates 1440x more variables per task, which quickly overwhelms the solver.
+The number of variables is now `O(n²)` in the number of VMs. If the problem has a small number of VMs and a long planning horizon, this may be a significant improvement over the `O(n × T)` of the time-indexed formulation. For a planning horizon of, say, 1440 minutes (one day), the time-indexed model creates 1440x more variables per task, which quickly overwhelms the solver.
 
 However, in order to implement the `AddCumulative` constraint in CP-SAT, we need a much more complicated constraint. The challenge is that at the start time of each task `i`, you need to ensure the total throughput of all concurrent tasks does not exceed the host's limit.
 
