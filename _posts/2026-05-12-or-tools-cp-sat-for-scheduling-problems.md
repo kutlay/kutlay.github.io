@@ -1,5 +1,5 @@
 ---
-title: Using OR-Tools for Scheduling Problems 
+title: Using OR-Tools CP-SAT for Scheduling Problems 
 layout: post
 category: software
 ---
