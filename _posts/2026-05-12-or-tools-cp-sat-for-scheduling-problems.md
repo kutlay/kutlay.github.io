@@ -2,6 +2,7 @@
 title: Using OR-Tools CP-SAT for Scheduling Problems
 layout: post
 category: posts
+image: assets/images/cp-sat-scheduling-thumbnail.png
 ---
 
 I’ve been working on improving how we schedule maintenance in Akamai’s cloud infrastructure, especially disruptive maintenance on hypervisor hosts serving hundreds of thousands of guest VMs. The problem is fairly complex, with competing constraints such as capacity, customer disruption SLAs, and concurrency limits across hosts, racks, and datacenters.
